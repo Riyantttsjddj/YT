@@ -1,0 +1,32 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        run: |
+          docker build -t myapp-android .
+
+      - name: Extract APK
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/app myapp-android cp /app/bin/*.apk /app/
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: myapp-apk
+          path: '*.apk'
+          
