@@ -1,0 +1,12 @@
+<MyLayout>:
+    orientation: 'vertical'
+    padding: 20
+    spacing: 10
+
+    TextInput:
+        id: url_input
+        hint_text: "Paste YouTube URL here"
+
+    Button:
+        text: "Download"
+        on_press: root.download_video()
